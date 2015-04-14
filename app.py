@@ -1,12 +1,14 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
+import json
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
-    return 'Oh yay Flask is running!'
-
+	json_data = open("champ_data.txt", "r")
+	data = json.load(json_data)
+	return render_template('index.html', champ_list=data.items())
 
 @app.route('/data')
 def names():
@@ -18,4 +20,4 @@ def names():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

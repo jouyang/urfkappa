@@ -1,0 +1,14 @@
+<h1>Testing Hi</h1>
+
+<table>
+{% for champ_row in champ_list | batch(8, '&nbsp;') %}
+  <tr>
+  	{% for champ_tuple in champ_row %}
+     <td id="{{ champ_tuple[0] }}">
+    	<span>{{ champ_tuple[1]['name'] }}</span><br>
+    	<span>{{ champ_tuple[1]['title'] }}</span>
+    </td>
+    {% endfor %}
+  </tr>
+{% endfor %}
+</table>
