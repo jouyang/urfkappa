@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'Flask is running!'
+    return 'Oh yay Flask is running!'
 
 
 @app.route('/data')
