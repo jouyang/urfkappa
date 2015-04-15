@@ -1,5 +1,6 @@
 <h1>Testing Hi</h1>
 
+<div>
 <table>
 {% for champ_row in champ_list | batch(8, '&nbsp;') %}
   <tr>
@@ -12,3 +13,4 @@
   </tr>
 {% endfor %}
 </table>
+<div>
