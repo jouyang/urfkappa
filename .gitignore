@@ -1,1 +1,6 @@
 *.pyc
+<<<<<<< HEAD
+=======
+key.py
+*.json
+>>>>>>> 570a48ed1f2d11d71a2e7fed754fddcca3361329

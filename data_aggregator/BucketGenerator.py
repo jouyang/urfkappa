@@ -1,7 +1,8 @@
 import requests
-from time import gmtime
+import key
+import ast
 
-required_payload = {'api_key': 'a1dd0a0a-5b05-41be-85d1-6efc4ea04f79'}
+required_payload = {'api_key': key.api_key()}
 root_url = "https://na.api.pvp.net/"
 
 def merge_dicts(*dict_args):
@@ -31,5 +32,7 @@ class BucketGenerator:
 	def get_bucket(self):
 		req = requests.get(root_url + self.challenge_api_suffix, params=merge_dicts(required_payload, self.challenge_payload))
 		self.increment_time_slot()
-		return req.text
+		game_ids = [item for item in ast.literal_eval(req.text)]
+		return game_ids
+
 
