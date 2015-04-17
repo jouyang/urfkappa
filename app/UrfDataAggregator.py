@@ -2,11 +2,11 @@ import sys
 import key
 import requests
 import time
+from models import matches
+from app import db
 from BucketGenerator import BucketGenerator
 from collections import deque
-from ..urfkappa import app
 from datetime import datetime
-import matches
 
 required_payload = {'api_key': key.api_key()}
 root_url = "https://na.api.pvp.net/api/lol/na/v2.2/match/"
@@ -137,14 +137,15 @@ class UrfDataAggregator:
 					p8_item = str(p8_item)
 					p9_item = str(p9_item)
 					p10_item = str(p10_item)
-					m = matches.matches(team1_ChampID, team2_ChampID, p1_item, p2_item, p3_item, p4_item, p5_item, p6_item, p7_item, p8_item, p9_item, p10_item, winner, team1_pnum_to_champ, team2_pnum_to_champ)
-					app.db.session.add(m)
-					app.db.session.commit()
+					m = matches(team1_ChampID, team2_ChampID, p1_item, p2_item, p3_item, p4_item, p5_item, p6_item, p7_item, p8_item, p9_item, p10_item, winner, team1_pnum_to_champ, team2_pnum_to_champ)
+					db.session.add(m)
+					db.session.commit()
 					print "Finished saving match info"
 					print "================================="
 					match_counts+=1
-		except:
+		except Exception,e:
 			print 'Unexpected Error: ', sys.exc_info()[0]
+			print e
 		finally:
 			log.close()
 

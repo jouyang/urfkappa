@@ -1,4 +1,4 @@
-from ..urfkappa.app import db
+from app import db
 
 class matches(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
