@@ -30,7 +30,7 @@ class UrfDataAggregator:
 		self.current_bucket = deque(self.bucket.get_bucket())
 
 	def set_start_time(self, tm):
-		self.buck.current_bucket.current_slot = tm
+		self.bucket.current_bucket.current_slot = tm
 
 	def extract_items(self, data):
 		items = []
