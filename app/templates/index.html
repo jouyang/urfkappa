@@ -1,16 +1,254 @@
-<h1>Testing Hi</h1>
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UrfKappa | Urf Statistics</title>
+    <link rel="stylesheet" href="../static/css/foundation.css" />
+    <link href="../static/pizza/css/pizza.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
+    <script src="../static/js/vendor/modernizr.js"></script>
+    <style>
+    	.orange-border {
+    		background-color : orange;
+    	}
+    	.blue-border {
+    		background-color : blue;
+    	}
+    	.urf-banner {
+    		width : 1000px;
+    		height : 400px;
+    	}
+    	.hidden {
+    		display : none;
+    	}
+    </style>
+    <script>
+    	orange_active = false;
+    	blue_active = false;
+    	orange_champ = "";
+    	blue_champ = "";
+    </script>
+  </head>
+  <body>
 
-<div>
-<table>
-{% for champ_row in champ_list | batch(8, '&nbsp;') %}
-  <tr>
-  	{% for champ_tuple in champ_row %}
-     <td id="{{ champ_tuple[0] }}">
-    	<span>{{ champ_tuple[1]['name'] }}</span><br>
-    	<span>{{ champ_tuple[1]['title'] }}</span>
-    </td>
-    {% endfor %}
-  </tr>
-{% endfor %}
-</table>
-<div>
+
+
+      <div class="row">
+        <div class="large-12 columns">
+       
+           
+            <nav class="top-bar" data-topbar>
+              <ul class="title-area">
+                 
+                <li class="name">
+                  <h1>
+                    <a href="#">
+                      UrfKappa
+                    </a>
+                  </h1>
+                </li>
+                <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+              </ul>
+       
+              <section class="top-bar-section">
+                <!--<ul class="left">
+                  <li><a href="#">Link 1</a></li>
+                  <li><a href="#">Link 2</a></li>
+                </ul>-->
+       
+                <ul class="right">
+                  <li class="search">
+                    <form>
+                      <input type="text" id="box">
+                    </form>
+                  </li>
+       
+                  <li class="has-button">
+                    <a class="small button" href="#">Search</a>
+                  </li>
+                </ul>
+              </section>
+            </nav>
+       
+           
+        
+          </div>
+        </div>
+       
+       
+        <div class="row">
+          <div class="large-12 columns">
+       
+           
+       
+            <div class="hide-for-small">
+              <div id="featured">
+                    <img src="../static/img/urf.jpg" class="urf-banner">
+                     
+              </div>
+            </div>
+            <!--<div class="instructions large-4 columns">
+            	<h4>Select two champions and press GO to see how they match up in URF mode.</h4>
+            	<div class="small-radius button">GO!</div>
+            </div>-->
+          </div>
+        </div><br>
+       
+        <!--<div class="row">
+          <div class="large-12 columns">
+            <div class="row">
+       
+           
+       
+              <div class="large-2 columns">
+                <h6 class="panel"><img src="./img/Graves.png"/></h6>
+              </div>
+              <div class="large-2 columns">
+                <h6 class="panel"><img src="./img/Graves.png"/></h6>
+              </div>
+              <div class="large-2 columns">
+                <h6 class="panel"><img src="./img/Graves.png"/></h6>
+              </div>
+              <div class="large-2 columns">
+                <h6 class="panel"><img src="./img/Graves.png"/></h6>
+              </div>
+              <div class="large-2 columns">
+                <h6 class="panel"><img src="./img/Graves.png"/></h6>
+              </div>
+              <div class="large-2 columns">
+                <h6 class="panel"><img src="./img/Graves.png"/></h6>
+              </div>
+
+              <div class="large-2 columns">
+                <img src="./img/Graves.png"/>
+              </div>
+       
+              <div class="large-2 small-6 columns">
+                <img src="http://placehold.it/250x250&text=Thumbnail"/>
+                <h6 class="panel">Description</h6>
+              </div>
+      
+       
+            </div>
+          </div>
+        </div>-->
+        
+        <div class="row" id="champ-grid">
+        	<div class="large-12 columns">
+        		{% for champ_row in champ_list | batch(12, '&nbsp;') %}
+		          <div class="row">
+		            {% for champ_tuple in champ_row %}
+		            <div class="large-1 columns champion" id="{{ champ_tuple[1]['name'] }}">
+		            	<h4><img src="../static/icons/{{ champ_tuple[1]['name'] }}Square.png"/></h6>
+		            </div>
+		            {% endfor %}
+		          </div>
+		          {% endfor %}
+            </div>
+        </div>
+       
+        <div class="row" id="chart">
+        	<div class="large-12 columns">
+        		<div class="row">
+				    <div class="large-4 small-4 columns">
+				      <ul data-bar-id="bar">
+				        <li data-value="50" id='orange-champ-data'></li>
+				        <img id="orange-champ-pic" src=""/>
+				        <li data-value="50" id='blue-champ-data'></li>
+				        <img id="blue-champ-pic" src=""/>
+				      </ul>
+				    </div>
+				    <div class="large-8 small-8 columns">
+				      <div id="bar" style="height: 450px;"></div>
+				    </div>
+				</div>
+				<div class="row">
+					<div class="large-4 columns large-centered">
+						<div class="large button expand" style="margin-top : 20px" id="reset">Back to Champion Grid.</div>
+					</div>
+				</div>
+			</div>
+			<!--<div class="large-12 columns">
+				<div class="row">
+					<div class="large-4 columns large-centered">
+						<div class="large button expand" id="reset">Back to Champion Grid.</div>
+					</div>
+				</div>
+			</div>-->
+		</div>
+                
+       
+        <footer class="row">
+          <div class="large-12 columns">
+            <hr>
+            <div class="row">
+              <div class="large-6 columns">
+                <p>© Jeffrey Ouyang and Robert Winders</p>
+              </div>
+            </div>
+          </div>
+        </footer>
+    
+
+  	    <script src="../static/js/vendor/jquery.js"></script>
+    	<script src="../static/js/foundation.min.js"></script>
+    	<script src="../static/pizza/js/vendor/dependencies.js"></script>
+  		<script src="../static/pizza/js/pizza.js"></script>
+    <script>
+
+      $(window).load(function() {
+	      Pizza.init();
+	      $(document).foundation();
+	      setTimeout(function(){ $("#chart").addClass("hidden") }, 800);
+	    });
+    </script>
+    <script>
+    	$("img[src='../static/icons/Square.png']").remove();
+    </script>
+    <script>
+    	$(".champion").click(function(){
+    		if($(this).hasClass("orange-border")) {
+    			$(this).removeClass("orange-border");
+    			orange_active = false;
+    			orange_champ = "";
+    		}
+    		else if(orange_active === false && !$(this).hasClass("blue-border")) {
+    			$(this).addClass("orange-border");
+    			orange_active = true;
+    			orange_champ = $(this).attr('id');
+    		}
+    		else if($(this).hasClass("blue-border")) {
+    			$(this).removeClass("blue-border");
+    			blue_active = false;
+    			blue_champ = "";
+    		}
+    		else if(blue_active === false && !$(this).hasClass("orange-border")) {
+    			$(this).addClass("blue-border");
+    			blue_active = true;
+    			blue_champ = $(this).attr('id');
+    		}
+    		if(orange_active && blue_active) {
+    			$("#champ-grid").hide();
+    			$("#orange-champ-data").html("" + orange_champ);
+    			$("#orange-champ-pic").attr('src' , '../static/icons/' + orange_champ + 'Square.png')
+    			$("#blue-champ-data").html("" + blue_champ);
+    			$("#blue-champ-pic").attr('src' , '../static/icons/' + blue_champ + 'Square.png');
+    			$("#chart").animate( { "opacity" : "show"}, 1500);
+    		}
+    	});
+    	$("#reset").click(function(){
+    		$("#chart").hide();
+    		$("#champ-grid").animate( { "opacity" : "show"}, 1500);
+    		var a = orange_champ.replace("'", "\\'");
+    		var b = a.replace(" ", "\\ ");
+    		var c = blue_champ.replace("'", "\\'");
+    		var d = c.replace(" ", "\\ ");
+    		//$("#Twisted\\ Fate").removeClass("orange-border");
+    		$('#' + b).removeClass("orange-border");
+    		$('#' + d).removeClass("blue-border");
+    		orange_champ = ""; orange_active = false;
+    		blue_champ = ""; blue_active = false;
+    	});
+    </script>
+  </body>
+</html>
