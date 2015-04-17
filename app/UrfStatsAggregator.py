@@ -1,3 +1,4 @@
+from __future__ import division
 from app import cursor, champInformation, idToDataName
 import json
 import query

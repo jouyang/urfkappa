@@ -1,4 +1,3 @@
-from __future__ import division
 from flask import jsonify, render_template
 from app import app, champInformation, idToDataName
 from UrfStatsAggregator import calculate_raw_win_rate
