@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UrfKappa | Urf Statistics</title>
     <link rel="stylesheet" href="../static/css/foundation.css" />
-    <link href="../static/pizza/css/pizza.css" media="screen, projector, print" rel="stylesheet" type="text/css" />
+    <!--<link rel="stylesheet" href="http://www.workshop.rs/jqbargraph/styles.css" type="text/css" />-->
     <script src="../static/js/vendor/modernizr.js"></script>
     <style>
     	.orange-border {
@@ -21,12 +21,21 @@
     	.hidden {
     		display : none;
     	}
+      #stats-graph {
+        margin-top : 70px;
+      }
+      .center {
+        margin-left : auto;
+        margin-right : auto;
+      }
     </style>
     <script>
     	orange_active = false;
     	blue_active = false;
     	orange_champ = "";
     	blue_champ = "";
+      orange_champ_id = 0;
+      blue_champ_id = 0;
     </script>
   </head>
   <body>
@@ -51,22 +60,6 @@
               </ul>
        
               <section class="top-bar-section">
-                <!--<ul class="left">
-                  <li><a href="#">Link 1</a></li>
-                  <li><a href="#">Link 2</a></li>
-                </ul>-->
-       
-                <ul class="right">
-                  <li class="search">
-                    <form>
-                      <input type="text" id="box">
-                    </form>
-                  </li>
-       
-                  <li class="has-button">
-                    <a class="small button" href="#">Search</a>
-                  </li>
-                </ul>
               </section>
             </nav>
        
@@ -87,94 +80,48 @@
                      
               </div>
             </div>
-            <!--<div class="instructions large-4 columns">
-            	<h4>Select two champions and press GO to see how they match up in URF mode.</h4>
-            	<div class="small-radius button">GO!</div>
-            </div>-->
           </div>
         </div><br>
-       
-        <!--<div class="row">
-          <div class="large-12 columns">
-            <div class="row">
-       
-           
-       
-              <div class="large-2 columns">
-                <h6 class="panel"><img src="./img/Graves.png"/></h6>
-              </div>
-              <div class="large-2 columns">
-                <h6 class="panel"><img src="./img/Graves.png"/></h6>
-              </div>
-              <div class="large-2 columns">
-                <h6 class="panel"><img src="./img/Graves.png"/></h6>
-              </div>
-              <div class="large-2 columns">
-                <h6 class="panel"><img src="./img/Graves.png"/></h6>
-              </div>
-              <div class="large-2 columns">
-                <h6 class="panel"><img src="./img/Graves.png"/></h6>
-              </div>
-              <div class="large-2 columns">
-                <h6 class="panel"><img src="./img/Graves.png"/></h6>
-              </div>
-
-              <div class="large-2 columns">
-                <img src="./img/Graves.png"/>
-              </div>
-       
-              <div class="large-2 small-6 columns">
-                <img src="http://placehold.it/250x250&text=Thumbnail"/>
-                <h6 class="panel">Description</h6>
-              </div>
-      
-       
-            </div>
-          </div>
-        </div>-->
         
         <div class="row" id="champ-grid">
         	<div class="large-12 columns">
+            <div class="row" id"instructions">
+              <h4 class="panel">Select any two champions in the grid to find their win rates against each other in URF Mode!</h4>
+            </div>
         		{% for champ_row in champ_list | batch(12, '&nbsp;') %}
 		          <div class="row">
 		            {% for champ_tuple in champ_row %}
-		            <div class="large-1 columns champion" id="{{ champ_tuple[1]['name'] }}">
-		            	<h4><img src="../static/icons/{{ champ_tuple[1]['name'] }}Square.png"/></h6>
+		            <div class="large-1 columns champion" id="{{ champ_tuple[1]['name'] }}" data-id="{{champ_tuple[1]['id']}}">
+		            	<h4><img src="../static/icons/{{ champ_tuple[1]['name'] }}Square.png"/></h4>
 		            </div>
 		            {% endfor %}
 		          </div>
 		          {% endfor %}
             </div>
         </div>
-       
-        <div class="row" id="chart">
-        	<div class="large-12 columns">
-        		<div class="row">
-				    <div class="large-4 small-4 columns">
-				      <ul data-bar-id="bar">
-				        <li data-value="50" id='orange-champ-data'></li>
-				        <img id="orange-champ-pic" src=""/>
-				        <li data-value="50" id='blue-champ-data'></li>
-				        <img id="blue-champ-pic" src=""/>
-				      </ul>
-				    </div>
-				    <div class="large-8 small-8 columns">
-				      <div id="bar" style="height: 450px;"></div>
-				    </div>
-				</div>
-				<div class="row">
-					<div class="large-4 columns large-centered">
-						<div class="large button expand" style="margin-top : 20px" id="reset">Back to Champion Grid.</div>
-					</div>
-				</div>
+      <div class="row"></div>
+
+      <div class="row" id="stats" style="display:none">
+        <div class="large-12 columns">
+          <div class="row">
+            <div class="large-2 columns">
+              <h4 class="panel"><img src="" id="orange-champ-pic"></h4>
+            </div>
+            <div class="large-8 columns">
+              <div id="stats-graph">
+              </div>
+            </div>
+            <div class="large-2 columns">
+              <h4 class="panel"><img src="" id="blue-champ-pic"></h4>
+            </div>
+          </div>
+  				<div class="row">
+  					<div class="large-4 columns large-centered">
+  						<div class="large button expand" style="margin-top : 20px" id="reset">Back to Champion Grid.</div>
+  					</div>
+  				</div>
+        </div>
 			</div>
-			<!--<div class="large-12 columns">
-				<div class="row">
-					<div class="large-4 columns large-centered">
-						<div class="large button expand" id="reset">Back to Champion Grid.</div>
-					</div>
-				</div>
-			</div>-->
 		</div>
                 
        
@@ -192,52 +139,80 @@
 
   	    <script src="../static/js/vendor/jquery.js"></script>
     	<script src="../static/js/foundation.min.js"></script>
-    	<script src="../static/pizza/js/vendor/dependencies.js"></script>
-  		<script src="../static/pizza/js/pizza.js"></script>
+      <script src="../static/js/vendor/jqBarGraph.1.1.min.js"</script>
     <script>
 
       $(window).load(function() {
-	      Pizza.init();
 	      $(document).foundation();
-	      setTimeout(function(){ $("#chart").addClass("hidden") }, 800);
 	    });
     </script>
     <script>
     	$("img[src='../static/icons/Square.png']").remove();
     </script>
-    <script>
+    <script>;
+      function resetGraph(){
+        $("#graphHolder1stats-graph").replaceWith("<div id=\"stats-graph\"></div>");
+      }
+
     	$(".champion").click(function(){
     		if($(this).hasClass("orange-border")) {
     			$(this).removeClass("orange-border");
     			orange_active = false;
     			orange_champ = "";
+          orange_champ_id = 0;
     		}
     		else if(orange_active === false && !$(this).hasClass("blue-border")) {
     			$(this).addClass("orange-border");
     			orange_active = true;
     			orange_champ = $(this).attr('id');
+          orange_champ_id = $(this).attr('data-id');
     		}
     		else if($(this).hasClass("blue-border")) {
     			$(this).removeClass("blue-border");
     			blue_active = false;
     			blue_champ = "";
+          blue_champ_id = 0;
     		}
     		else if(blue_active === false && !$(this).hasClass("orange-border")) {
     			$(this).addClass("blue-border");
     			blue_active = true;
     			blue_champ = $(this).attr('id');
+          blue_champ_id = $(this).attr('data-id');
     		}
     		if(orange_active && blue_active) {
-    			$("#champ-grid").hide();
-    			$("#orange-champ-data").html("" + orange_champ);
-    			$("#orange-champ-pic").attr('src' , '../static/icons/' + orange_champ + 'Square.png')
-    			$("#blue-champ-data").html("" + blue_champ);
-    			$("#blue-champ-pic").attr('src' , '../static/icons/' + blue_champ + 'Square.png');
-    			$("#chart").animate( { "opacity" : "show"}, 1500);
+          console.log(orange_champ_id);
+          console.log("urfkappa");
+          console.log(blue_champ_id);
+          $.ajax({
+            type : 'GET',
+            url : "/stats/" + orange_champ_id + "/" + blue_champ_id,
+            beforeSend: function() {
+              $("#champ-grid").hide();
+            },
+            success: function(data) {
+              console.log(data);
+              champ1_win_rate = Math.round(data['champ1_win_rate'] *100);
+              champ2_win_rate = Math.round(data['champ2_win_rate'] *100);
+              $("#orange-champ-pic").attr('src' , '../static/icons/' + orange_champ + 'Square.png');
+              $("#blue-champ-pic").attr('src' , '../static/icons/' + blue_champ + 'Square.png');
+              var arrayOfData = new Array(
+                  [champ1_win_rate, data['champ1_name'], '#e67e22'],
+                  [champ2_win_rate, data['champ2_name'], '#3498db']
+              ); 
+              $('#stats-graph').jqBarGraph({ data: arrayOfData,
+                                             title : "UrfKappa - Winrate: " + data['champ1_name'] + " vs " + data['champ2_name'],
+                                             barSpace: 15,
+                                             height: 400,
+                                             postfix : '%'});
+              $("#graphHolder1stats-graph").addClass("center");
+              $("#stats").animate( { "opacity" : "show"}, 1500);
+            }
+          });
     		}
     	});
     	$("#reset").click(function(){
-    		$("#chart").hide();
+    		$("#stats").hide();
+        resetGraph();
     		$("#champ-grid").animate( { "opacity" : "show"}, 1500);
     		var a = orange_champ.replace("'", "\\'");
     		var b = a.replace(" ", "\\ ");
