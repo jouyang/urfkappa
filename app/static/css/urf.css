@@ -1,0 +1,29 @@
+.orange-border {
+	background-color : orange;
+}
+
+.blue-border {
+	background-color : blue;
+}
+
+.urf-banner {
+	width : 1000px;
+	height : 400px;
+}
+
+.hidden {
+	display : none;
+}
+
+#stats-graph {
+margin-top : 70px;
+}
+
+.center {
+margin-left : auto;
+margin-right : auto;
+}
+
+#error {
+    text-align: center;
+}
