@@ -5,79 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UrfKappa | Urf Statistics</title>
     <link rel="stylesheet" href="../static/css/foundation.css" />
-    <!--<link rel="stylesheet" href="http://www.workshop.rs/jqbargraph/styles.css" type="text/css" />-->
+    <link rel="stylesheet" href="../static/css/urf.css" />
     <script src="../static/js/vendor/modernizr.js"></script>
-    <style>
-    	.orange-border {
-    		background-color : orange;
-    	}
-    	.blue-border {
-    		background-color : blue;
-    	}
-    	.urf-banner {
-    		width : 1000px;
-    		height : 400px;
-    	}
-    	.hidden {
-    		display : none;
-    	}
-      #stats-graph {
-        margin-top : 70px;
-      }
-      .center {
-        margin-left : auto;
-        margin-right : auto;
-      }
-    </style>
-    <script>
-    	orange_active = false;
-    	blue_active = false;
-    	orange_champ = "";
-    	blue_champ = "";
-      orange_champ_id = 0;
-      blue_champ_id = 0;
-    </script>
+    <script src="../static/js/vendor/jquery.js"></script>
+    <script src="../static/js/foundation.min.js"></script>
+    <script src="../static/js/vendor/jqBarGraph.1.1.min.js"></script>
+    <script src="../static/js/urf.js"></script>
   </head>
   <body>
-
-
-
-      <div class="row">
-        <div class="large-12 columns">
-       
-           
-            <nav class="top-bar" data-topbar>
-              <ul class="title-area">
-                 
-                <li class="name">
-                  <h1>
-                    <a href="#">
-                      UrfKappa
-                    </a>
-                  </h1>
-                </li>
-                <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
-              </ul>
-       
-              <section class="top-bar-section">
-              </section>
-            </nav>
-       
-           
-        
-          </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <nav class="top-bar" data-topbar>
+                  <ul class="title-area">
+                    <li class="name">
+                      <h1>
+                        <a href="#">
+                          UrfKappa
+                        </a>
+                      </h1>
+                    </li>
+                    <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+                  </ul>
+                </nav>
+            </div>
         </div>
-       
-       
+           
+           
         <div class="row">
           <div class="large-12 columns">
-       
-           
-       
             <div class="hide-for-small">
               <div id="featured">
                     <img src="../static/img/urf.jpg" class="urf-banner">
-                     
               </div>
             </div>
           </div>
@@ -85,45 +43,44 @@
         
         <div class="row" id="champ-grid">
         	<div class="large-12 columns">
-            <div class="row" id"instructions">
-              <h4 class="panel">Select any two champions in the grid to find their win rates against each other in URF Mode!</h4>
-            </div>
+                <div class="row" id"instructions">
+                    <h4 class="panel">Select any two champions in the grid to find their win rates against each other in URF Mode!</h4>
+                </div>
         		{% for champ_row in champ_list | batch(12, '&nbsp;') %}
-		          <div class="row">
+                <div class="row">
 		            {% for champ_tuple in champ_row %}
 		            <div class="large-1 columns champion" id="{{ champ_tuple[1]['name'] }}" data-id="{{champ_tuple[1]['id']}}">
 		            	<h4><img src="../static/icons/{{ champ_tuple[1]['name'] }}Square.png"/></h4>
 		            </div>
 		            {% endfor %}
 		          </div>
-		          {% endfor %}
+                  {% endfor %}
             </div>
         </div>
-      <div class="row"></div>
 
-      <div class="row" id="stats" style="display:none">
-        <div class="large-12 columns">
-          <div class="row">
-            <div class="large-2 columns">
-              <h4 class="panel"><img src="" id="orange-champ-pic"></h4>
-            </div>
-            <div class="large-8 columns">
-              <div id="stats-graph">
-              </div>
-            </div>
-            <div class="large-2 columns">
-              <h4 class="panel"><img src="" id="blue-champ-pic"></h4>
-            </div>
-          </div>
-  				<div class="row">
+        <div class="row"></div>
+
+        <div class="row" id="stats" style="display:none">
+            <div class="large-12 columns">
+                <div class="row">
+                    <div class="large-2 columns">
+                        <h4 class="panel"><img src="" id="orange-champ-pic"></h4>
+                    </div>
+                    <div class="large-8 columns">
+                        <div id="stats-graph"></div>
+                    </div>
+                    <div class="large-2 columns">
+                        <h4 class="panel"><img src="" id="blue-champ-pic"></h4>
+                    </div>
+                </div>
+                <div class="row">
   					<div class="large-4 columns large-centered">
-  						<div class="large button expand" style="margin-top : 20px" id="reset">Back to Champion Grid.</div>
+  						<div class="large button expand" style="margin-top : 20px" id="reset">Back to Champion Grid</div>
   					</div>
   				</div>
-        </div>
-			</div>
+            </div>
 		</div>
-                
+        
        
         <footer class="row">
           <div class="large-12 columns">
@@ -135,95 +92,6 @@
             </div>
           </div>
         </footer>
-    
-
-  	    <script src="../static/js/vendor/jquery.js"></script>
-    	<script src="../static/js/foundation.min.js"></script>
-      <script src="../static/js/vendor/jqBarGraph.1.1.min.js"</script>
-    <script>
-
-      $(window).load(function() {
-	      $(document).foundation();
-	    });
-    </script>
-    <script>
-    	$("img[src='../static/icons/Square.png']").remove();
-    </script>
-    <script>;
-      function resetGraph(){
-        $("#graphHolder1stats-graph").replaceWith("<div id=\"stats-graph\"></div>");
-      }
-
-    	$(".champion").click(function(){
-    		if($(this).hasClass("orange-border")) {
-    			$(this).removeClass("orange-border");
-    			orange_active = false;
-    			orange_champ = "";
-          orange_champ_id = 0;
-    		}
-    		else if(orange_active === false && !$(this).hasClass("blue-border")) {
-    			$(this).addClass("orange-border");
-    			orange_active = true;
-    			orange_champ = $(this).attr('id');
-          orange_champ_id = $(this).attr('data-id');
-    		}
-    		else if($(this).hasClass("blue-border")) {
-    			$(this).removeClass("blue-border");
-    			blue_active = false;
-    			blue_champ = "";
-          blue_champ_id = 0;
-    		}
-    		else if(blue_active === false && !$(this).hasClass("orange-border")) {
-    			$(this).addClass("blue-border");
-    			blue_active = true;
-    			blue_champ = $(this).attr('id');
-          blue_champ_id = $(this).attr('data-id');
-    		}
-    		if(orange_active && blue_active) {
-          console.log(orange_champ_id);
-          console.log("urfkappa");
-          console.log(blue_champ_id);
-          $.ajax({
-            type : 'GET',
-            url : "/stats/" + orange_champ_id + "/" + blue_champ_id,
-            beforeSend: function() {
-              $("#champ-grid").hide();
-            },
-            success: function(data) {
-              console.log(data);
-              champ1_win_rate = Math.round(data['champ1_win_rate'] *100);
-              champ2_win_rate = Math.round(data['champ2_win_rate'] *100);
-              $("#orange-champ-pic").attr('src' , '../static/icons/' + orange_champ + 'Square.png');
-              $("#blue-champ-pic").attr('src' , '../static/icons/' + blue_champ + 'Square.png');
-              var arrayOfData = new Array(
-                  [champ1_win_rate, data['champ1_name'], '#e67e22'],
-                  [champ2_win_rate, data['champ2_name'], '#3498db']
-              ); 
-              $('#stats-graph').jqBarGraph({ data: arrayOfData,
-                                             title : "UrfKappa - Winrate: " + data['champ1_name'] + " vs " + data['champ2_name'],
-                                             barSpace: 15,
-                                             height: 400,
-                                             postfix : '%'});
-              $("#graphHolder1stats-graph").addClass("center");
-              $("#stats").animate( { "opacity" : "show"}, 1500);
-            }
-          });
-    		}
-    	});
-    	$("#reset").click(function(){
-    		$("#stats").hide();
-        resetGraph();
-    		$("#champ-grid").animate( { "opacity" : "show"}, 1500);
-    		var a = orange_champ.replace("'", "\\'");
-    		var b = a.replace(" ", "\\ ");
-    		var c = blue_champ.replace("'", "\\'");
-    		var d = c.replace(" ", "\\ ");
-    		//$("#Twisted\\ Fate").removeClass("orange-border");
-    		$('#' + b).removeClass("orange-border");
-    		$('#' + d).removeClass("blue-border");
-    		orange_champ = ""; orange_active = false;
-    		blue_champ = ""; blue_active = false;
-    	});
-    </script>
+        
   </body>
 </html>
